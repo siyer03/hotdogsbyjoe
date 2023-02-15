@@ -1,0 +1,125 @@
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Joe's Hotdog Stand</title>
+    <link rel="stylesheet" type="text/css" href="stylesheet.css">
+</head>
+<body>
+    <h1>Joe's Hotdog Stand</h1>
+    <br>
+    <br>
+    <h2>Order Form</h2>
+    
+    <script>
+        //Ask the user for input
+        hotdogs = prompt("How many hotdogs do you want?");
+        fries = prompt("How many fries do you want?");
+        sodas = prompt("How many sodas do you want?");
+        
+        //Function to round a number to always have two decimals
+        function twodecimal(a)
+        {
+            tostring = a + "";
+            index = tostring.indexOf("."); //Determine the index of the
+            answer = "";                   //decimal place
+            
+            if (index == -1) //If there's no decimal, add both 0s
+            {
+                answer = tostring + ".00";
+            }
+            else if (index == tostring.length - 2) //If there's one decimal,
+            {                                      //add in a 0
+                answer = tostring + "0";
+            }
+            else if (index == tostring.length - 3) //If there are two decimals,
+            {                                      //keep it the same
+                answer = tostring;
+            }
+            else 
+            {
+                if (tostring[index + 3] >= 5) //Round up if needed
+                {
+                    tempfloat = parseFloat(tostring);
+                    tempfloat += 0.01;
+                    tostring = tempfloat + "";
+                };
+                
+                for (i = 0; i < (index + 3); i++) //Only include up to two
+                {                                 //decimal places
+                    answer = answer + tostring[i];
+                }
+            }
+            
+            return answer;
+        }
+        
+        //Convert user answers into integers
+        num_hotdogs = parseInt(hotdogs);
+        num_fries = parseInt(fries);
+        num_sodas = parseInt(sodas);
+        
+        //Determine the original subtotal
+        subtotal1 = 4*num_hotdogs + 3.50*num_fries + 1.75*num_sodas;
+        subtotal = subtotal1;
+        
+        //If the subtotal is greater than $20, account for the discount        
+        if (subtotal1 >= 20)
+        {
+            discount = 0.1*subtotal1;
+            subtotal2 = subtotal1 - discount;
+            subtotal = subtotal2;
+        };
+        
+        tax = 0.0625*subtotal;
+        final_total = subtotal + tax;
+        
+        //Convert all values to have two decimal places
+        subtotal1 = twodecimal(subtotal1);
+        
+        if (subtotal1 >= 20)
+        {
+            discount = twodecimal(discount);
+            subtotal2 = twodecimal(subtotal2);
+        };
+        
+        tax = twodecimal(tax);
+        final_total = twodecimal(final_total);
+        
+        //Write out the results
+        document.write("Your Order: <br> <br>");
+        
+        if (num_hotdogs > 0) 
+        {
+            document.write("Hotdogs: " + num_hotdogs + "<br>");
+        };
+        
+        if (num_fries > 0) 
+        {
+            document.write("Fries: " + num_fries + "<br>");
+        }; 
+        
+        if (num_sodas > 0)
+        {
+            document.write("Sodas: " + num_sodas + "<br>");
+        };
+        
+        document.write("<br>");
+        
+        if (subtotal1 >= 20)
+        {
+            document.write("Subtotal Before Discount: $" + subtotal1 + "<br>");
+            document.write("Discount: $" + discount + "<br> <br>");
+            document.write("Subtotal Before Tax: $" + subtotal2 + "<br>");
+        }
+        else
+        {
+            document.write("<br>");
+            document.write("Subtotal Before Tax: $" + subtotal1 + "<br>");
+        };
+        
+        document.write("Tax: $" + tax + "<br> <br>");
+        document.write("Final Total: $" + final_total + "<br>");
+    </script>
+    
+</body>
+</html>
